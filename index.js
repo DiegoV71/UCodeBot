@@ -9,10 +9,9 @@ const options = {
 
 const bot = new TelegraBot(botToken, options);
 
-bot.onText(/./, (msg) => console.log(msg.text));
+bot.onText(/./, (msg) => autoReply(msg));
 
-function autoReply(msg)
-{
+function autoReply(msg) {
     bot.sendMessage(mes.from.id, "I am alive");
 }
 
