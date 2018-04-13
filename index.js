@@ -1,9 +1,12 @@
 const botToken = process.env.BOT_TOKEN;
+const url = process.env.APP_URL;
 const TelegraBot = require("node-telegram-bot-api");
 
 const options = {
     polling: {
-        autoStart: false
+        webHook: {
+            port: process.env.PORT
+        }
     }
 };
 
@@ -15,4 +18,4 @@ function autoReply(msg) {
     bot.sendMessage(mes.from.id, "I am alive");
 }
 
-bot.startPolling();
+bot.setWebHook(`${url}/bot${botToken}`);
