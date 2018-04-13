@@ -14,8 +14,8 @@ const bot = new TelegraBot(botToken, options);
 
 bot.onText(/./, (msg) => autoReply(msg));
 
-function autoReply(msg) {
-    bot.sendMessage(mes.from.id, "I am alive");
+async function autoReply(msg) {
+    await bot.sendMessage(mes.from.id, "I am alive");
 }
 
 bot.setWebHook(`${url}/bot${botToken}`);
