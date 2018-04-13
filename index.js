@@ -5,6 +5,7 @@ const url = process.env.APP_URL;
 const port = process.env.PORT || 8443;
 const TelegraBot = require("node-telegram-bot-api");
 
+console.log(`Server will be started on ${url}:${port}`)
 
 const options = {
     polling: {
