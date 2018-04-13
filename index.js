@@ -15,10 +15,15 @@ const options = {
 
 const bot = new TelegraBot(botToken, options);
 
-bot.onText(/./, (msg) => autoReply(msg));
+bot.onText(/test/, (msg) => autoReply(msg));
 
+/**
+ * 
+ * @param {TelegraBot.Message} msg 
+ */
 async function autoReply(msg) {
-    await bot.sendMessage(msg.from.id, "I am alive");
+    console.log('I replyed to ' + msg.from.username + ` (${msg.text})`);
+    await bot.sendMessage(msg.chat.id, "I am alive", { reply_to_message_id: msg.id});
 }
 
 //bot.setWebHook(url);
