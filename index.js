@@ -8,12 +8,9 @@ const TelegraBot = require("node-telegram-bot-api");
 console.log(`Server will be started on ${url}:${port}`)
 
 const options = {
-    polling: {
         webHook: {
-            port: port,
-            host: url
+            port: port
         }
-    }
 };
 
 const bot = new TelegraBot(botToken, options);
@@ -24,5 +21,5 @@ async function autoReply(msg) {
     await bot.sendMessage(msg.from.id, "I am alive");
 }
 
-bot.setWebHook();
-//bot.setWebHook(`${url}/bot${botToken}`);
+//bot.setWebHook(url);
+bot.setWebHook(`${url}/bot${botToken}`);
