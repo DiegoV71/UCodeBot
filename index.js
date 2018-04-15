@@ -1,30 +1,54 @@
 process.env["NTBA_FIX_319"] = 1;
 
-const botToken = process.env.BOT_TOKEN;
+const botToken = process.env.BOT_TOKEN || require("./config").bot_token;
 const url = process.env.APP_URL;
 const port = process.env.PORT || 8443;
-const TelegraBot = require("node-telegram-bot-api");
+const TelegramBot = require("node-telegram-bot-api");
 
-console.log(`Server will be started on ${url}:${port}`)
+const CommonFunctions = require("./Libs/CommonFunctions");
 
-const options = {
+let options = {};
+
+if (url) {
+    options = {
         webHook: {
             port: port
         }
-};
+    };
 
-const bot = new TelegraBot(botToken, options);
+    console.log(`Server will be started on ${url}:${port} with usage webHook`)
+} else
+{
+    options = {
+        polling: {
+            autoStart: false
+        }
+    };
 
-bot.onText(/test/, (msg) => autoReply(msg));
+    console.log(`Server will be started on localhost with longpooling`)
+}
+
+const bot = new TelegramBot(botToken, options);
+
+const common = new CommonFunctions(bot);
+
+bot.onText(/\/ping/, (msg) => processPing(msg));
 
 /**
  * 
- * @param {TelegraBot.Message} msg 
+ * @param {TelegramBot.Message} msg 
  */
-async function autoReply(msg) {
+async function processPing(msg) {
+    common.removeMessage(msg);
     console.log('I replyed to ' + msg.from.username + ` (${msg.text})`);
-    await bot.sendMessage(msg.chat.id, "I am alive", { reply_to_message_id: msg.message_id});
+    await bot.sendMessage(msg.chat.id, "I am alive!", { reply_to_message_id: msg.message_id });
 }
 
-//bot.setWebHook(url);
-bot.setWebHook(`${url}/bot${botToken}`);
+if (url)
+{
+    bot.setWebHook(`${url}/bot${botToken}`);    
+} else
+{
+    bot.startPolling();
+}
+console.log("Started!");
