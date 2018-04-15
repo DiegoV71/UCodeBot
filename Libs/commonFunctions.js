@@ -13,6 +13,7 @@ class CommonFunctions {
      * @param {TelegramBot.Message} msg
      */
     async removeMessage(msg) {
+        console.log("Deleting message: " + msg.text);
         if (this.messageFromSupergroup(msg))
         {
             await this.bot.deleteMessage(msg.chat.id, msg.message_id);
