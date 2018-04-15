@@ -35,7 +35,7 @@ const rating = new RatingCommands(bot);
 
 bot.onText(/\/ping/, processPing);
 
-bot.onText(/\/like/, (msg) => rating.like(msg));
+bot.onText(/\/thx/, (msg) => rating.like(msg));
 bot.onText(/\/wtf/, (msg) => rating.dislike(msg));
 
 /**
