@@ -6,6 +6,7 @@ const port = process.env.PORT || 8443;
 const TelegramBot = require("node-telegram-bot-api");
 
 const CommonFunctions = require("./Libs/CommonFunctions");
+const RatingCommands = require("./Commands/RatingCommands");
 
 let options = {};
 
@@ -17,8 +18,7 @@ if (url) {
     };
 
     console.log(`Server will be started on ${url}:${port} with usage webHook`)
-} else
-{
+} else {
     options = {
         polling: {
             autoStart: false
@@ -31,8 +31,12 @@ if (url) {
 const bot = new TelegramBot(botToken, options);
 
 const common = new CommonFunctions(bot);
+const rating = new RatingCommands(bot);
 
-bot.onText(/\/ping/, (msg) => processPing(msg));
+bot.onText(/\/ping/, processPing);
+
+bot.onText(/\/like/, (msg) => rating.like(msg));
+bot.onText(/\/wtf/, (msg) => rating.dislike(msg));
 
 /**
  * 
@@ -43,11 +47,9 @@ async function processPing(msg) {
     await bot.sendMessage(msg.chat.id, "I am alive!", { reply_to_message_id: msg.message_id });
 }
 
-if (url)
-{
-    bot.setWebHook(`${url}/bot${botToken}`);    
-} else
-{
+if (url) {
+    bot.setWebHook(`${url}/bot${botToken}`);
+} else {
     bot.startPolling();
 }
 console.log("Started!");
