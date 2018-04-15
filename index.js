@@ -39,7 +39,6 @@ bot.onText(/\/ping/, (msg) => processPing(msg));
  * @param {TelegramBot.Message} msg 
  */
 async function processPing(msg) {
-    common.removeMessage(msg);
     console.log('I replyed to ' + msg.from.username + ` (${msg.text})`);
     await bot.sendMessage(msg.chat.id, "I am alive!", { reply_to_message_id: msg.message_id });
 }
