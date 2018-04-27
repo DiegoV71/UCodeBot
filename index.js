@@ -33,6 +33,7 @@ const bot = new TelegramBot(botToken, options);
 const common = new CommonFunctions(bot);
 const rating = new RatingCommands(bot);
 
+bot.onText(/^\//, common.removeMessage);
 bot.onText(/\/ping/, processPing);
 
 bot.onText(/\/thx/, (msg) => rating.like(msg));
